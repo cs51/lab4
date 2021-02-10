@@ -15,11 +15,11 @@ higher-order functions `curry` and `uncurry` for currying and uncurrying
 binary functions (functions of two arguments). The functions are named
 after mathematician Haskell Curry '1920. (By way of reminder, a
 curried function takes its arguments one at a time. An uncurried
-function takes them all at once in a tuple.)
+function takes them all at once in a pair.)
 
-We start with the polymorphic higher-order function `curry`, which takes
-as its argument an uncurried function and returns the curried version
-of its argument function.
+We start with the polymorphic higher-order function `curry`, which
+takes as its argument an uncurried binary function and returns the
+curried version of its argument function.
 
 Before starting to code, pull out a sheet of paper and a pencil and
 with your partner work out the answers to the following seven
@@ -98,7 +98,7 @@ let prods =
   fun _ -> failwith "prods not implemented" ;; 
 
 (*======================================================================
-Part 2: Option types
+Part 2: Option types and exceptions
 
 In Lab 2, you implemented a function `max_list` that returns the maximum
 element in a non-empty integer list. Here's a possible implementation
@@ -230,9 +230,15 @@ match is not exhaustive and it raises an exception when given lists of
 unequal length. How can you use option types to generate an alternate
 solution without this property?
 
-Do so below in a new definition of `zip`, called `zip_opt` to make clear
-that its signature has changed, which returns an appropriate option
-type in case it is called with lists of unequal length.
+Do so below in a new definition of `zip`, called `zip_opt` to make
+clear that its signature has changed, which returns an appropriate
+option type in case it is called with lists of unequal length. Here
+are some examples:
+
+    # zip_opt [1; 2] [true; false] ;;
+    - : (int * bool) list option = Some [(1, true); (2, false)]
+    # zip_opt [1; 2] [true; false; true] ;;
+    - : (int * bool) list option = None
 ......................................................................*)
 
 let zip_opt =
@@ -292,17 +298,17 @@ let dotprod (a : int list) (b : int list) : int option =
   failwith "dotprod not implemented" ;; 
 
 (*......................................................................
-Exercise 15: Reimplement `zip_opt` along the same lines, as `zip_opt_2`
-below.
+Exercise 15: Reimplement `zip_opt` using the `maybe` function, as
+`zip_opt_2` below.
 ......................................................................*)
 
 let rec zip_opt_2 (x : 'a list) (y : 'b list) : (('a * 'b) list) option =
   failwith "zip_opt_2 not implemented" ;;
 
 (*......................................................................
-Exercise 16: For the energetic, reimplement `max_list_opt` along the
-same lines. There's likely to be a subtle issue here, since the `maybe`
-function always passes along the `None`.
+Exercise 16: [Optional] For the energetic, reimplement `max_list_opt`
+along the same lines. There's likely to be a subtle issue here, since
+the `maybe` function always passes along the `None`.
 ......................................................................*)
 
 let rec max_list_opt_2 (lst : int list) : int option =
